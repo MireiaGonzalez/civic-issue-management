@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: urbanito-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: urbanito
+      POSTGRES_USER: urbanito
+      POSTGRES_PASSWORD: urbanito
+    ports:
+      - "5432:5432"
+    volumes:
+      - urbanito-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  urbanito-postgres-data:
