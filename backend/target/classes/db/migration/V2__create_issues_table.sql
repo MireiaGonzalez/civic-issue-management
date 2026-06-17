@@ -12,9 +12,16 @@ CREATE TABLE issues (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     resolved_at TIMESTAMPTZ,
 
-    CONSTRAINT issue_reporter_id_foreign_key FOREIGN KEY (reporter_id) REFERENCES users(id),
-    CONSTRAINT issue_category_id_foreign_key FOREIGN KEY (category_id) REFERENCES issue_categories(id),
-    CONSTRAINT issue_status_check CHECK (status IN ('SUBMITTED', 'IN_REVIEW', 'IN_PROGRESS', 'RESOLVED', 'CLOSED')),
-    CONSTRAINT issue_priority_check CHECK (priority IN ('LOW', 'MEDIUM', 'HIGH', 'CRITICAL'))
+    CONSTRAINT issue_reporter_id_foreign_key 
+    FOREIGN KEY (reporter_id) REFERENCES users(id),
+
+    CONSTRAINT issue_category_id_foreign_key 
+    FOREIGN KEY (category_id) REFERENCES issue_categories(id),
+
+    CONSTRAINT issue_status_check 
+    CHECK (status IN ('SUBMITTED', 'IN_REVIEW', 'IN_PROGRESS', 'RESOLVED', 'CLOSED')),
+
+    CONSTRAINT issue_priority_check 
+    CHECK (priority IN ('LOW', 'MEDIUM', 'HIGH', 'CRITICAL'))
 );
 
