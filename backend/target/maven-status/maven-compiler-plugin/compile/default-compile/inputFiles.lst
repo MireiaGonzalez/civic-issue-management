@@ -1,4 +1,5 @@
 /Users/mireiagonzalez/dev/portfolio-projects/urbanito/backend/src/main/java/com/mireiagonzalez/urbanito/UrbanitoApplication.java
+/Users/mireiagonzalez/dev/portfolio-projects/urbanito/backend/src/main/java/com/mireiagonzalez/urbanito/attachment/IssueAttachment.java
 /Users/mireiagonzalez/dev/portfolio-projects/urbanito/backend/src/main/java/com/mireiagonzalez/urbanito/category/IssueCategory.java
 /Users/mireiagonzalez/dev/portfolio-projects/urbanito/backend/src/main/java/com/mireiagonzalez/urbanito/issue/Issue.java
 /Users/mireiagonzalez/dev/portfolio-projects/urbanito/backend/src/main/java/com/mireiagonzalez/urbanito/issue/IssuePriority.java
