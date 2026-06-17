@@ -1,6 +1,6 @@
 package com.mireiagonzalez.urbanito.issue;
 
-enum IssueStatus {
+public enum IssueStatus {
     SUBMITTED,
     IN_REVIEW,
     IN_PROGRESS,
