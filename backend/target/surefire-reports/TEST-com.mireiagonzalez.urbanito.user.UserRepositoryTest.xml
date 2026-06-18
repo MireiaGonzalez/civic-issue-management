@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.mireiagonzalez.urbanito.UrbanitoApplicationTests" time="3.185" tests="1" errors="0" skipped="0" failures="0" flakes="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.mireiagonzalez.urbanito.user.UserRepositoryTest" time="0.629" tests="3" errors="0" skipped="0" failures="0" flakes="0">
   <properties>
     <property name="java.specification.version" value="26"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -50,7 +50,7 @@
     <property name="localRepository" value="/Users/mireiagonzalez/.m2/repository"/>
     <property name="java.vendor.url.bug" value="https://github.com/Homebrew/homebrew-core/issues"/>
     <property name="java.io.tmpdir" value="/var/folders/4q/nbw24y6j2lz78s3njv1xcmhh0000gn/T/"/>
-    <property name="com.zaxxer.hikari.pool_number" value="1"/>
+    <property name="com.zaxxer.hikari.pool_number" value="2"/>
     <property name="java.version" value="26.0.1"/>
     <property name="user.dir" value="/Users/mireiagonzalez/dev/portfolio-projects/urbanito/backend"/>
     <property name="os.arch" value="aarch64"/>
@@ -69,11 +69,11 @@
     <property name="java.class.version" value="70.0"/>
     <property name="LOGGED_APPLICATION_NAME" value="[urbanito] "/>
   </properties>
-  <testcase name="contextLoads" classname="com.mireiagonzalez.urbanito.UrbanitoApplicationTests" time="0.265">
-    <system-out><![CDATA[02:27:05.987 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.mireiagonzalez.urbanito.UrbanitoApplicationTests]: UrbanitoApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-02:27:06.041 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.mireiagonzalez.urbanito.UrbanitoApplication for test class com.mireiagonzalez.urbanito.UrbanitoApplicationTests
-02:27:06.094 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.mireiagonzalez.urbanito.UrbanitoApplicationTests]: UrbanitoApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-02:27:06.095 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.mireiagonzalez.urbanito.UrbanitoApplication for test class com.mireiagonzalez.urbanito.UrbanitoApplicationTests
+  <testcase name="existsByEmailReturnsFalseWhenEmailDoesNotExist" classname="com.mireiagonzalez.urbanito.user.UserRepositoryTest" time="0.28">
+    <system-out><![CDATA[2026-06-18T02:27:09.087+02:00  INFO 97221 --- [urbanito] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.mireiagonzalez.urbanito.user.UserRepositoryTest]: UserRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-06-18T02:27:09.106+02:00  INFO 97221 --- [urbanito] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.mireiagonzalez.urbanito.UrbanitoApplication for test class com.mireiagonzalez.urbanito.user.UserRepositoryTest
+2026-06-18T02:27:09.107+02:00  INFO 97221 --- [urbanito] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.mireiagonzalez.urbanito.user.UserRepositoryTest]: UserRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-06-18T02:27:09.115+02:00  INFO 97221 --- [urbanito] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.mireiagonzalez.urbanito.UrbanitoApplication for test class com.mireiagonzalez.urbanito.user.UserRepositoryTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -84,21 +84,20 @@
 
  :: Spring Boot ::                (v4.1.0)
 
-2026-06-18T02:27:06.270+02:00  INFO 97221 --- [urbanito] [           main] c.m.urbanito.UrbanitoApplicationTests    : Starting UrbanitoApplicationTests using Java 26.0.1 with PID 97221 (started by mireiagonzalez in /Users/mireiagonzalez/dev/portfolio-projects/urbanito/backend)
-2026-06-18T02:27:06.271+02:00  INFO 97221 --- [urbanito] [           main] c.m.urbanito.UrbanitoApplicationTests    : No active profile set, falling back to 1 default profile: "default"
-2026-06-18T02:27:06.696+02:00  INFO 97221 --- [urbanito] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-06-18T02:27:06.724+02:00  INFO 97221 --- [urbanito] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 23 ms. Found 3 JPA repository interfaces.
-2026-06-18T02:27:07.045+02:00  INFO 97221 --- [urbanito] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-06-18T02:27:07.164+02:00  INFO 97221 --- [urbanito] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7afb9c93
-2026-06-18T02:27:07.165+02:00  INFO 97221 --- [urbanito] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-06-18T02:27:07.177+02:00  INFO 97221 --- [urbanito] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/urbanito (PostgreSQL 16.14)
-2026-06-18T02:27:07.225+02:00  INFO 97221 --- [urbanito] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 5 migrations (execution time 00:00.015s)
-2026-06-18T02:27:07.248+02:00  INFO 97221 --- [urbanito] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 5
-2026-06-18T02:27:07.251+02:00  INFO 97221 --- [urbanito] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
-2026-06-18T02:27:07.315+02:00  INFO 97221 --- [urbanito] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
-2026-06-18T02:27:07.349+02:00  INFO 97221 --- [urbanito] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.1.Final
-2026-06-18T02:27:07.578+02:00  INFO 97221 --- [urbanito] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-06-18T02:27:07.626+02:00  INFO 97221 --- [urbanito] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+2026-06-18T02:27:09.137+02:00  INFO 97221 --- [urbanito] [           main] c.m.urbanito.user.UserRepositoryTest     : Starting UserRepositoryTest using Java 26.0.1 with PID 97221 (started by mireiagonzalez in /Users/mireiagonzalez/dev/portfolio-projects/urbanito/backend)
+2026-06-18T02:27:09.137+02:00  INFO 97221 --- [urbanito] [           main] c.m.urbanito.user.UserRepositoryTest     : No active profile set, falling back to 1 default profile: "default"
+2026-06-18T02:27:09.186+02:00  INFO 97221 --- [urbanito] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-18T02:27:09.192+02:00  INFO 97221 --- [urbanito] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5 ms. Found 3 JPA repository interfaces.
+2026-06-18T02:27:09.229+02:00  INFO 97221 --- [urbanito] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-06-18T02:27:09.241+02:00  INFO 97221 --- [urbanito] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@460222eb
+2026-06-18T02:27:09.241+02:00  INFO 97221 --- [urbanito] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-06-18T02:27:09.242+02:00  INFO 97221 --- [urbanito] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/urbanito (PostgreSQL 16.14)
+2026-06-18T02:27:09.262+02:00  INFO 97221 --- [urbanito] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 5 migrations (execution time 00:00.007s)
+2026-06-18T02:27:09.275+02:00  INFO 97221 --- [urbanito] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 5
+2026-06-18T02:27:09.276+02:00  INFO 97221 --- [urbanito] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-06-18T02:27:09.286+02:00  INFO 97221 --- [urbanito] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-18T02:27:09.297+02:00  INFO 97221 --- [urbanito] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-18T02:27:09.304+02:00  INFO 97221 --- [urbanito] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
 	Database JDBC URL [jdbc:postgresql://localhost:5432/urbanito]
 	Database driver: PostgreSQL JDBC Driver
 	Database dialect: PostgreSQLDialect
@@ -110,17 +109,20 @@
 	Pool: DataSourceConnectionProvider
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2026-06-18T02:27:08.105+02:00  INFO 97221 --- [urbanito] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-06-18T02:27:08.136+02:00  INFO 97221 --- [urbanito] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-06-18T02:27:08.534+02:00  INFO 97221 --- [urbanito] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
-2026-06-18T02:27:08.714+02:00  INFO 97221 --- [urbanito] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
-2026-06-18T02:27:08.754+02:00  INFO 97221 --- [urbanito] [           main] c.m.urbanito.UrbanitoApplicationTests    : Started UrbanitoApplicationTests in 2.628 seconds (process running for 3.238)
+2026-06-18T02:27:09.342+02:00  INFO 97221 --- [urbanito] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-18T02:27:09.361+02:00  INFO 97221 --- [urbanito] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-18T02:27:09.388+02:00  INFO 97221 --- [urbanito] [           main] c.m.urbanito.user.UserRepositoryTest     : Started UserRepositoryTest in 0.27 seconds (process running for 3.872)
+Hibernate: select u1_0.id from users u1_0 where u1_0.email=? fetch first ? rows only
 ]]></system-out>
-    <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
-WARNING: A Java agent has been loaded dynamically (/Users/mireiagonzalez/.m2/repository/net/bytebuddy/byte-buddy-agent/1.18.10/byte-buddy-agent-1.18.10.jar)
-WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
-WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
-WARNING: Dynamic loading of agents will be disallowed by default in a future release
-]]></system-err>
+  </testcase>
+  <testcase name="existsByEmailReturnsTrueWhenEmailExists" classname="com.mireiagonzalez.urbanito.user.UserRepositoryTest" time="0.023">
+    <system-out><![CDATA[Hibernate: insert into users (created_at,email,name,password_hash,role,id) values (?,?,?,?,?,?)
+Hibernate: select u1_0.id from users u1_0 where u1_0.email=? fetch first ? rows only
+]]></system-out>
+  </testcase>
+  <testcase name="findByEmailReturnsUserWhenEmailExists" classname="com.mireiagonzalez.urbanito.user.UserRepositoryTest" time="0.016">
+    <system-out><![CDATA[Hibernate: insert into users (created_at,email,name,password_hash,role,id) values (?,?,?,?,?,?)
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.name,u1_0.password_hash,u1_0.role from users u1_0 where u1_0.email=?
+]]></system-out>
   </testcase>
 </testsuite>
