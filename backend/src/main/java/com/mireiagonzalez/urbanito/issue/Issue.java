@@ -31,7 +31,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Issue {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -71,4 +71,21 @@ public class Issue {
 
     @Column(name = "resolved_at")
     private Instant resolvedAt;
+
+    public static Issue create(User reporter,
+            IssueCategory category,
+            String title,
+            String description,
+            String location) {
+        Issue issue = new Issue();
+        issue.reporter = reporter;
+        issue.category = category;
+        issue.title = title;
+        issue.description = description;
+        issue.location = location;
+        issue.status = IssueStatus.SUBMITTED;
+        issue.priority = IssuePriority.MEDIUM;
+
+        return issue;
+    }
 }

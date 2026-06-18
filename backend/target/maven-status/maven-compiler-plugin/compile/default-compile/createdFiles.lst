@@ -1,3 +1,4 @@
+com/mireiagonzalez/urbanito/issue/IssueService.class
 com/mireiagonzalez/urbanito/issue/Issue.class
 com/mireiagonzalez/urbanito/issue/dto/CreateIssueRequest.class
 com/mireiagonzalez/urbanito/user/UserRepository.class

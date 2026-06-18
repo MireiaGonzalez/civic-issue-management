@@ -8,6 +8,7 @@
 /Users/mireiagonzalez/dev/portfolio-projects/urbanito/backend/src/main/java/com/mireiagonzalez/urbanito/issue/Issue.java
 /Users/mireiagonzalez/dev/portfolio-projects/urbanito/backend/src/main/java/com/mireiagonzalez/urbanito/issue/IssuePriority.java
 /Users/mireiagonzalez/dev/portfolio-projects/urbanito/backend/src/main/java/com/mireiagonzalez/urbanito/issue/IssueRepository.java
+/Users/mireiagonzalez/dev/portfolio-projects/urbanito/backend/src/main/java/com/mireiagonzalez/urbanito/issue/IssueService.java
 /Users/mireiagonzalez/dev/portfolio-projects/urbanito/backend/src/main/java/com/mireiagonzalez/urbanito/issue/IssueStatus.java
 /Users/mireiagonzalez/dev/portfolio-projects/urbanito/backend/src/main/java/com/mireiagonzalez/urbanito/issue/dto/CreateIssueRequest.java
 /Users/mireiagonzalez/dev/portfolio-projects/urbanito/backend/src/main/java/com/mireiagonzalez/urbanito/issue/dto/IssueResponse.java
