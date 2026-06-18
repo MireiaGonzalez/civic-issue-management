@@ -1,6 +1,6 @@
 package com.mireiagonzalez.urbanito.issue;
 
-enum IssuePriority {
+public enum IssuePriority {
     LOW,
     MEDIUM,
     HIGH,

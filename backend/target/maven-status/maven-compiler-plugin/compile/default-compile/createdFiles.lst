@@ -1,6 +1,8 @@
 com/mireiagonzalez/urbanito/issue/Issue.class
+com/mireiagonzalez/urbanito/issue/dto/CreateIssueRequest.class
 com/mireiagonzalez/urbanito/user/UserRepository.class
 com/mireiagonzalez/urbanito/issue/IssueStatus.class
+com/mireiagonzalez/urbanito/issue/dto/IssueResponse.class
 com/mireiagonzalez/urbanito/issue/IssuePriority.class
 com/mireiagonzalez/urbanito/category/IssueCategory.class
 com/mireiagonzalez/urbanito/comment/CommentVisibility.class
