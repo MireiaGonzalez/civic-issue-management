@@ -118,4 +118,55 @@ class IssueServiceTest {
         verify(issueRepository, never()).save(any(Issue.class));
     }
 
+    @Test
+    void getIssueByIdReturnsIssueResponse() {
+        // Arrange
+        UUID issueId = UUID.randomUUID();
+
+        User reporter = mock(User.class);
+        IssueCategory category = mock(IssueCategory.class);
+
+        when(reporter.getId()).thenReturn(reporterId);
+        when(reporter.getName()).thenReturn("John");
+        when(category.getId()).thenReturn(categoryId);
+        when(category.getName()).thenReturn("Other");
+
+        Issue issue = Issue.create(
+                reporter,
+                category,
+                "Issue test title",
+                "Issue creation test description",
+                "A random location");
+
+        when(issueRepository.findById(issueId)).thenReturn(Optional.of(issue));
+
+        // Act
+        IssueResponse response = issueService.getIssueById(issueId);
+
+        // Assert
+        assertThat(response.reporterId()).isEqualTo(reporterId);
+        assertThat(response.reporterName()).isEqualTo("John");
+        assertThat(response.categoryId()).isEqualTo(categoryId);
+        assertThat(response.categoryName()).isEqualTo("Other");
+        assertThat(response.title()).isEqualTo("Issue test title");
+        assertThat(response.description())
+                .isEqualTo("Issue creation test description");
+        assertThat(response.location()).isEqualTo("A random location");
+        assertThat(response.status()).isEqualTo(IssueStatus.SUBMITTED);
+        assertThat(response.priority()).isEqualTo(IssuePriority.MEDIUM);
+    }
+
+    @Test
+    void getIssueByIdThrowsWhenIssueDoesNotExist() {
+        // Arrange
+        UUID issueId = UUID.randomUUID();
+
+        when(issueRepository.findById(issueId)).thenReturn(Optional.empty());
+
+        // Act and Assert
+        assertThatThrownBy(() -> issueService.getIssueById(issueId))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Issue not found");
+    }
+
 }

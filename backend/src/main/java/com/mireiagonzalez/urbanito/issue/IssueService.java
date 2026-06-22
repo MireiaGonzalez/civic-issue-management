@@ -1,5 +1,7 @@
 package com.mireiagonzalez.urbanito.issue;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
 import com.mireiagonzalez.urbanito.category.IssueCategory;
@@ -15,42 +17,49 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class IssueService {
 
-    private final IssueRepository issueRepository;
-    private final UserRepository userRepository;
-    private final IssueCategoryRepository issueCategoryRepository;
+        private final IssueRepository issueRepository;
+        private final UserRepository userRepository;
+        private final IssueCategoryRepository issueCategoryRepository;
 
-    public IssueResponse createIssue(CreateIssueRequest request) {
-        User reporter = userRepository.findById(request.reporterId())
-                .orElseThrow(() -> new IllegalArgumentException("Reporter not found"));
-        IssueCategory category = issueCategoryRepository.findById(request.categoryId())
-                .orElseThrow(() -> new IllegalArgumentException("Category not found"));
+        public IssueResponse createIssue(CreateIssueRequest request) {
+                User reporter = userRepository.findById(request.reporterId())
+                                .orElseThrow(() -> new IllegalArgumentException("Reporter not found"));
+                IssueCategory category = issueCategoryRepository.findById(request.categoryId())
+                                .orElseThrow(() -> new IllegalArgumentException("Category not found"));
 
-        Issue newIssue = Issue.create(reporter, category, request.title(),
-                request.description(), request.location());
+                Issue newIssue = Issue.create(reporter, category, request.title(),
+                                request.description(), request.location());
 
-        Issue savedIssue = issueRepository.save(newIssue);
+                Issue savedIssue = issueRepository.save(newIssue);
 
-        return toResponse(savedIssue);
-    }
+                return toResponse(savedIssue);
+        }
 
-    private IssueResponse toResponse(Issue issue) {
-        User reporter = issue.getReporter();
-        IssueCategory category = issue.getCategory();
+        public IssueResponse getIssueById(UUID id) {
+                Issue issue = issueRepository.findById(id)
+                                .orElseThrow(() -> new IllegalArgumentException("Issue not found"));
 
-        return new IssueResponse(
-                issue.getId(),
-                reporter.getId(),
-                reporter.getName(),
-                category.getId(),
-                category.getName(),
-                issue.getTitle(),
-                issue.getDescription(),
-                issue.getLocation(),
-                issue.getStatus(),
-                issue.getPriority(),
-                issue.getCreatedAt(),
-                issue.getUpdatedAt(),
-                issue.getResolvedAt());
-    }
+                return toResponse(issue);
+        }
+
+        private IssueResponse toResponse(Issue issue) {
+                User reporter = issue.getReporter();
+                IssueCategory category = issue.getCategory();
+
+                return new IssueResponse(
+                                issue.getId(),
+                                reporter.getId(),
+                                reporter.getName(),
+                                category.getId(),
+                                category.getName(),
+                                issue.getTitle(),
+                                issue.getDescription(),
+                                issue.getLocation(),
+                                issue.getStatus(),
+                                issue.getPriority(),
+                                issue.getCreatedAt(),
+                                issue.getUpdatedAt(),
+                                issue.getResolvedAt());
+        }
 
 }
