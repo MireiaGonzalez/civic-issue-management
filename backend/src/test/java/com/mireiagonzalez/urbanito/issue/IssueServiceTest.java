@@ -40,7 +40,7 @@ class IssueServiceTest {
         @InjectMocks
         private IssueService issueService;
 
-        // Test request
+        // Test mock request
         private final UUID reporterId = UUID.randomUUID();
         private final UUID categoryId = UUID.randomUUID();
 
@@ -54,14 +54,8 @@ class IssueServiceTest {
         @Test
         void createIssueSavesIssueAndReturnsResponse() {
                 // Arrange
-                User reporter = mock(User.class);
-                IssueCategory category = mock(IssueCategory.class);
-
-                when(reporter.getId()).thenReturn(reporterId);
-                when(reporter.getName()).thenReturn("John");
-
-                when(category.getId()).thenReturn(categoryId);
-                when(category.getName()).thenReturn("Other");
+                User reporter = mockReporter();
+                IssueCategory category = mockCategory();
 
                 when(userRepository.findById(reporterId)).thenReturn(Optional.of(reporter));
                 when(issueCategoryRepository.findById(categoryId)).thenReturn(Optional.of(category));
@@ -73,15 +67,7 @@ class IssueServiceTest {
                 IssueResponse response = issueService.createIssue(request);
 
                 // Assert
-                assertThat(response.reporterId()).isEqualTo(reporterId);
-                assertThat(response.reporterName()).isEqualTo("John");
-                assertThat(response.categoryId()).isEqualTo(categoryId);
-                assertThat(response.categoryName()).isEqualTo("Other");
-                assertThat(response.title()).isEqualTo("Issue test title");
-                assertThat(response.description()).isEqualTo("Issue creation test description");
-                assertThat(response.location()).isEqualTo("A random location");
-                assertThat(response.status()).isEqualTo(IssueStatus.SUBMITTED);
-                assertThat(response.priority()).isEqualTo(IssuePriority.MEDIUM);
+                assertDefaultIssueResponse(response);
 
                 // Verify
                 verify(issueRepository).save(any(Issue.class));
@@ -123,21 +109,7 @@ class IssueServiceTest {
         void getIssueByIdReturnsIssueResponse() {
                 // Arrange
                 UUID issueId = UUID.randomUUID();
-
-                User reporter = mock(User.class);
-                IssueCategory category = mock(IssueCategory.class);
-
-                when(reporter.getId()).thenReturn(reporterId);
-                when(reporter.getName()).thenReturn("John");
-                when(category.getId()).thenReturn(categoryId);
-                when(category.getName()).thenReturn("Other");
-
-                Issue issue = Issue.create(
-                                reporter,
-                                category,
-                                "Issue test title",
-                                "Issue creation test description",
-                                "A random location");
+                Issue issue = createTestIssue();
 
                 when(issueRepository.findById(issueId)).thenReturn(Optional.of(issue));
 
@@ -145,16 +117,7 @@ class IssueServiceTest {
                 IssueResponse response = issueService.getIssueById(issueId);
 
                 // Assert
-                assertThat(response.reporterId()).isEqualTo(reporterId);
-                assertThat(response.reporterName()).isEqualTo("John");
-                assertThat(response.categoryId()).isEqualTo(categoryId);
-                assertThat(response.categoryName()).isEqualTo("Other");
-                assertThat(response.title()).isEqualTo("Issue test title");
-                assertThat(response.description())
-                                .isEqualTo("Issue creation test description");
-                assertThat(response.location()).isEqualTo("A random location");
-                assertThat(response.status()).isEqualTo(IssueStatus.SUBMITTED);
-                assertThat(response.priority()).isEqualTo(IssuePriority.MEDIUM);
+                assertDefaultIssueResponse(response);
         }
 
         @Test
@@ -173,24 +136,12 @@ class IssueServiceTest {
         @Test
         void getAllIssuesReturnsAllIssueResponses() {
                 // Arrange
-                User reporter = mock(User.class);
-                IssueCategory category = mock(IssueCategory.class);
-
-                when(reporter.getId()).thenReturn(reporterId);
-                when(reporter.getName()).thenReturn("John");
-                when(category.getId()).thenReturn(categoryId);
-                when(category.getName()).thenReturn("Other");
-
-                Issue firstIssue = Issue.create(
-                                reporter,
-                                category,
+                Issue firstIssue = createTestIssue(
                                 "First issue",
                                 "First issue description",
                                 "First location");
 
-                Issue secondIssue = Issue.create(
-                                reporter,
-                                category,
+                Issue secondIssue = createTestIssue(
                                 "Second issue",
                                 "Second issue description",
                                 "Second location");
@@ -204,6 +155,85 @@ class IssueServiceTest {
                 assertThat(responses).hasSize(2);
                 assertThat(responses.get(0).title()).isEqualTo("First issue");
                 assertThat(responses.get(1).title()).isEqualTo("Second issue");
+        }
+
+        @Test
+        void updateIssueStatusReturnsUpdatedIssueResponse() {
+                // Arrange
+                UUID issueId = UUID.randomUUID();
+                Issue issue = createTestIssue();
+
+                when(issueRepository.findById(issueId)).thenReturn(Optional.of(issue));
+                when(issueRepository.save(issue)).thenReturn(issue);
+
+                // Act
+                IssueResponse response = issueService.updateIssueStatus(issueId, IssueStatus.IN_PROGRESS);
+
+                // Assert
+                assertThat(response.status()).isEqualTo(IssueStatus.IN_PROGRESS);
+                verify(issueRepository).save(issue);
+        }
+
+        @Test
+        void updateIssueStatusThrowsWhenIssueDoesNotExist() {
+                // Arrange
+                UUID issueId = UUID.randomUUID();
+
+                when(issueRepository.findById(issueId)).thenReturn(Optional.empty());
+
+                // Act and Assert
+                assertThatThrownBy(() -> issueService.updateIssueStatus(issueId, IssueStatus.IN_PROGRESS))
+                                .isInstanceOf(IssueNotFoundException.class)
+                                .hasMessage("Issue not found");
+
+                verify(issueRepository, never()).save(any(Issue.class));
+        }
+
+        // Helpers to avoid too much repetition
+        private User mockReporter() {
+                User reporter = mock(User.class);
+
+                when(reporter.getId()).thenReturn(reporterId);
+                when(reporter.getName()).thenReturn("John");
+
+                return reporter;
+        }
+
+        private IssueCategory mockCategory() {
+                IssueCategory category = mock(IssueCategory.class);
+
+                when(category.getId()).thenReturn(categoryId);
+                when(category.getName()).thenReturn("Other");
+
+                return category;
+        }
+
+        private Issue createTestIssue() {
+                return createTestIssue(
+                                "Issue test title",
+                                "Issue creation test description",
+                                "A random location");
+        }
+
+        private Issue createTestIssue(String title, String description, String location) {
+                return Issue.create(
+                                mockReporter(),
+                                mockCategory(),
+                                title,
+                                description,
+                                location);
+        }
+
+        private void assertDefaultIssueResponse(IssueResponse response) {
+                assertThat(response.reporterId()).isEqualTo(reporterId);
+                assertThat(response.reporterName()).isEqualTo("John");
+                assertThat(response.categoryId()).isEqualTo(categoryId);
+                assertThat(response.categoryName()).isEqualTo("Other");
+                assertThat(response.title()).isEqualTo("Issue test title");
+                assertThat(response.description()).isEqualTo("Issue creation test description");
+                assertThat(response.location()).isEqualTo("A random location");
+                assertThat(response.status()).isEqualTo(IssueStatus.SUBMITTED);
+                assertThat(response.priority()).isEqualTo(IssuePriority.MEDIUM);
         }
 
 }

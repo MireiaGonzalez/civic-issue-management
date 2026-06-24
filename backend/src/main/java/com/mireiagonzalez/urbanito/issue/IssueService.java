@@ -50,6 +50,17 @@ public class IssueService {
                                 .toList();
         }
 
+        public IssueResponse updateIssueStatus(UUID id, IssueStatus status) {
+                Issue issue = issueRepository.findById(id)
+                                .orElseThrow(IssueNotFoundException::new);
+
+                issue.setStatus(status);
+
+                Issue savedIssue = issueRepository.save(issue);
+
+                return toResponse(savedIssue);
+        }
+
         private IssueResponse toResponse(Issue issue) {
                 User reporter = issue.getReporter();
                 IssueCategory category = issue.getCategory();

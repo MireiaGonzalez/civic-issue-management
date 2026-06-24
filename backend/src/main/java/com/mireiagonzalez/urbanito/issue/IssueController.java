@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mireiagonzalez.urbanito.issue.dto.CreateIssueRequest;
 import com.mireiagonzalez.urbanito.issue.dto.IssueResponse;
+import com.mireiagonzalez.urbanito.issue.dto.UpdateIssueStatusRequest;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +41,12 @@ public class IssueController {
     @ResponseStatus(HttpStatus.CREATED)
     public IssueResponse createIssue(@Valid @RequestBody CreateIssueRequest request) {
         return issueService.createIssue(request);
+    }
+
+    @PutMapping("/{id}/status")
+    public IssueResponse updateIssueStatus(@PathVariable UUID id,
+            @Valid @RequestBody UpdateIssueStatusRequest request) {
+        return issueService.updateIssueStatus(id, request.status());
     }
 
 }
