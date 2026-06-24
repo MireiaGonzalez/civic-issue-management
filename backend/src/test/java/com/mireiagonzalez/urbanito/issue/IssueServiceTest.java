@@ -8,6 +8,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -167,6 +168,42 @@ class IssueServiceTest {
                 assertThatThrownBy(() -> issueService.getIssueById(issueId))
                                 .isInstanceOf(IssueNotFoundException.class)
                                 .hasMessage("Issue not found");
+        }
+
+        @Test
+        void getAllIssuesReturnsAllIssueResponses() {
+                // Arrange
+                User reporter = mock(User.class);
+                IssueCategory category = mock(IssueCategory.class);
+
+                when(reporter.getId()).thenReturn(reporterId);
+                when(reporter.getName()).thenReturn("John");
+                when(category.getId()).thenReturn(categoryId);
+                when(category.getName()).thenReturn("Other");
+
+                Issue firstIssue = Issue.create(
+                                reporter,
+                                category,
+                                "First issue",
+                                "First issue description",
+                                "First location");
+
+                Issue secondIssue = Issue.create(
+                                reporter,
+                                category,
+                                "Second issue",
+                                "Second issue description",
+                                "Second location");
+
+                when(issueRepository.findAll()).thenReturn(List.of(firstIssue, secondIssue));
+
+                // Act
+                List<IssueResponse> responses = issueService.getAllIssues();
+
+                // Assert
+                assertThat(responses).hasSize(2);
+                assertThat(responses.get(0).title()).isEqualTo("First issue");
+                assertThat(responses.get(1).title()).isEqualTo("Second issue");
         }
 
 }

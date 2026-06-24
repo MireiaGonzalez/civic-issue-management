@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -31,28 +32,45 @@ class IssueControllerTest {
         @MockitoBean
         private IssueService issueService;
 
+        private final UUID firstIssueId = UUID.randomUUID();
+        private final UUID secondIssueId = UUID.randomUUID();
+        private final UUID reporterId = UUID.randomUUID();
+        private final UUID categoryId = UUID.randomUUID();
+
+        private final IssueResponse firstResponse = new IssueResponse(
+                        firstIssueId,
+                        reporterId,
+                        "John",
+                        categoryId,
+                        "Other",
+                        "Issue test title",
+                        "Issue creation test description",
+                        "A random location",
+                        IssueStatus.SUBMITTED,
+                        IssuePriority.MEDIUM,
+                        Instant.parse("2026-06-18T12:00:00Z"),
+                        Instant.parse("2026-06-18T12:00:00Z"),
+                        null);
+
+        private final IssueResponse secondResponse = new IssueResponse(
+                        secondIssueId,
+                        reporterId,
+                        "John",
+                        categoryId,
+                        "Other",
+                        "Second issue",
+                        "Second issue description",
+                        "Second location",
+                        IssueStatus.SUBMITTED,
+                        IssuePriority.MEDIUM,
+                        Instant.parse("2026-06-18T12:00:00Z"),
+                        Instant.parse("2026-06-18T12:00:00Z"),
+                        null);
+
+        @Test
         void createIssueReturnsCreatedIssueResponse() throws Exception {
                 // Arrange
-                UUID issueId = UUID.randomUUID();
-                UUID reporterId = UUID.randomUUID();
-                UUID categoryId = UUID.randomUUID();
-
-                IssueResponse response = new IssueResponse(
-                                issueId,
-                                reporterId,
-                                "John",
-                                categoryId,
-                                "Other",
-                                "Issue test title",
-                                "Issue creation test description",
-                                "A random location",
-                                IssueStatus.SUBMITTED,
-                                IssuePriority.MEDIUM,
-                                Instant.parse("2026-06-18T12:00:00Z"),
-                                Instant.parse("2026-06-18T12:00:00Z"),
-                                null);
-
-                when(issueService.createIssue(any(CreateIssueRequest.class))).thenReturn(response);
+                when(issueService.createIssue(any(CreateIssueRequest.class))).thenReturn(firstResponse);
 
                 String requestJson = """
                                 {
@@ -69,7 +87,7 @@ class IssueControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(requestJson))
                                 .andExpect(status().isCreated())
-                                .andExpect(jsonPath("$.id").value(issueId.toString()))
+                                .andExpect(jsonPath("$.id").value(firstIssueId.toString()))
                                 .andExpect(jsonPath("$.reporterId").value(reporterId.toString()))
                                 .andExpect(jsonPath("$.reporterName").value("John"))
                                 .andExpect(jsonPath("$.categoryId").value(categoryId.toString()))
@@ -81,6 +99,7 @@ class IssueControllerTest {
                                 .andExpect(jsonPath("$.priority").value("MEDIUM"));
         }
 
+        @Test
         void createIssueRequestReturnsBadRequestWhenRequestIsInvalid() throws Exception {
                 // Arrange
                 String requestJson = """
@@ -106,31 +125,12 @@ class IssueControllerTest {
         @Test
         void getIssueByIdReturnsIssueResponse() throws Exception {
                 // Arrange
-                UUID issueId = UUID.randomUUID();
-                UUID reporterId = UUID.randomUUID();
-                UUID categoryId = UUID.randomUUID();
-
-                IssueResponse response = new IssueResponse(
-                                issueId,
-                                reporterId,
-                                "John",
-                                categoryId,
-                                "Other",
-                                "Issue test title",
-                                "Issue creation test description",
-                                "A random location",
-                                IssueStatus.SUBMITTED,
-                                IssuePriority.MEDIUM,
-                                Instant.parse("2026-06-18T12:00:00Z"),
-                                Instant.parse("2026-06-18T12:00:00Z"),
-                                null);
-
-                when(issueService.getIssueById(issueId)).thenReturn(response);
+                when(issueService.getIssueById(firstIssueId)).thenReturn(firstResponse);
 
                 // Act and Assert
-                mockMvc.perform(get("/api/issues/{id}", issueId))
+                mockMvc.perform(get("/api/issues/{id}", firstIssueId))
                                 .andExpect(status().isOk())
-                                .andExpect(jsonPath("$.id").value(issueId.toString()))
+                                .andExpect(jsonPath("$.id").value(firstIssueId.toString()))
                                 .andExpect(jsonPath("$.reporterId").value(reporterId.toString()))
                                 .andExpect(jsonPath("$.reporterName").value("John"))
                                 .andExpect(jsonPath("$.categoryId").value(categoryId.toString()))
@@ -155,4 +155,19 @@ class IssueControllerTest {
                 mockMvc.perform(get("/api/issues/{id}", issueId))
                                 .andExpect(status().isNotFound());
         }
+
+        @Test
+        void getAllIssuesReturnsIssueResponses() throws Exception {
+                // Arrange
+
+                when(issueService.getAllIssues()).thenReturn(List.of(firstResponse, secondResponse));
+
+                // Act and Assert
+                mockMvc.perform(get("/api/issues"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$").isArray())
+                                .andExpect(jsonPath("$[0].title").value("Issue test title"))
+                                .andExpect(jsonPath("$[1].title").value("Second issue"));
+        }
+
 }

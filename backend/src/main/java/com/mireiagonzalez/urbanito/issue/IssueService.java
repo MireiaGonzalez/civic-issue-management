@@ -1,5 +1,6 @@
 package com.mireiagonzalez.urbanito.issue;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -40,6 +41,13 @@ public class IssueService {
                                 .orElseThrow(IssueNotFoundException::new);
 
                 return toResponse(issue);
+        }
+
+        public List<IssueResponse> getAllIssues() {
+                return issueRepository.findAll()
+                                .stream()
+                                .map(this::toResponse)
+                                .toList();
         }
 
         private IssueResponse toResponse(Issue issue) {

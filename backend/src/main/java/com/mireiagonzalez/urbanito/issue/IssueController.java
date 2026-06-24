@@ -1,5 +1,6 @@
 package com.mireiagonzalez.urbanito.issue;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,11 @@ public class IssueController {
     @GetMapping("/{id}")
     public IssueResponse getIssueById(@PathVariable UUID id) {
         return issueService.getIssueById(id);
+    }
+
+    @GetMapping
+    public List<IssueResponse> getAllIssues() {
+        return issueService.getAllIssues();
     }
 
     @PostMapping
