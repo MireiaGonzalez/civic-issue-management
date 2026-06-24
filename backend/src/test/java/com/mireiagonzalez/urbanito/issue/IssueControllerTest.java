@@ -142,4 +142,17 @@ class IssueControllerTest {
                                 .andExpect(jsonPath("$.status").value("SUBMITTED"))
                                 .andExpect(jsonPath("$.priority").value("MEDIUM"));
         }
+
+        @Test
+        void getIssueByIdReturnsNotFoundWhenIssueDoesNotExist() throws Exception {
+                // Arrange
+                UUID issueId = UUID.randomUUID();
+
+                when(issueService.getIssueById(issueId))
+                                .thenThrow(new IssueNotFoundException());
+
+                // Act and Assert
+                mockMvc.perform(get("/api/issues/{id}", issueId))
+                                .andExpect(status().isNotFound());
+        }
 }

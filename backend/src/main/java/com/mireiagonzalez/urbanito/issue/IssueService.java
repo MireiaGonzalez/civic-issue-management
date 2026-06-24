@@ -37,7 +37,7 @@ public class IssueService {
 
         public IssueResponse getIssueById(UUID id) {
                 Issue issue = issueRepository.findById(id)
-                                .orElseThrow(() -> new IllegalArgumentException("Issue not found"));
+                                .orElseThrow(IssueNotFoundException::new);
 
                 return toResponse(issue);
         }
